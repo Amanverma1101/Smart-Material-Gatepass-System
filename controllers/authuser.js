@@ -27,6 +27,13 @@ const saveUserDataAndSignup = async(req,res)=>{
             gender: req.body['gender'],
             password: req.body['password'][0]
         } 
+        if(user.role==="vendor"){
+              pno = user.vno;
+              dept = "Non Employee"
+          }else{
+              pno = user.empno;
+              dept = user.dept;
+          }
         await firebase.auth().createUser({
             email: user.email,
             password: user.password
@@ -36,10 +43,18 @@ const saveUserDataAndSignup = async(req,res)=>{
                 displayName: user.name,
               };
             firebase.auth().updateUser(result.uid,update);
-            const dbase = db.collection(user.email);
+            const dbase = db.collection("users").doc("requesting").collection(user.email);
             dbase.doc("Pers-info").set(user).then(()=>{   
-                   const tuser = {email:user.email, name: user.name};
-                  //  attachCookiesTOResponse({ res, user: tuser });
+                   const tuser = {
+                    email:user.email, 
+                    name: user.name, 
+                    pno: pno,
+                    dept: dept,
+                    role: user.role, 
+                    phone: user.phone,
+                    gender: user.gender
+                  };
+                   attachCookiesTOResponse({ res, user: tuser });
                    return res.redirect("/user/profile");
                 });})
                 .catch((error) => {
@@ -63,15 +78,30 @@ const loginUser = async(req,res)=>{
             await scrypt.verify(password, salt, hash)
              .then(async(isValid) =>{
                 if(isValid){
-                  const snap = await db.collection(email).doc('Pers-info').get();
-                  const tuser = {email: email, name: name, role: snap.data().role};
+                  const snap = await db.collection("users").doc('requesting').collection(email).doc('Pers-info').get();
+                    if(snap.data().role==="vendor"){
+                        pno = snap.data().vno;
+                        dept = "Non Employee"
+                    }else{
+                        pno = snap.data().empno;
+                        dept = snap.data().dept;
+                    }
+                  const tuser = {
+                    email: email, 
+                    name: name, 
+                    role: snap.data().role,
+                    pno: pno,
+                    dept: dept, 
+                    phone: snap.data().phone,
+                    gender: snap.data().gender
+                  };
                   console.log(tuser) ;
-                  //  attachCookiesTOResponse({ res, user: tuser });
+                   attachCookiesTOResponse({ res, user: tuser });
                   return res.redirect("/user/profile");
                   // return res.status(200).send("Correct Credentials");
                 } else{
                   console.log('Not valid !');
-                  return res.status(400).send("Sahi password daal saale🤦‍♂️!");
+                  return res.status(400).send("Sahi password daal bhaii🤦‍♂️!");
                 }
              }).catch((error) => {
               console.error('Error comparing passwords:', error);
@@ -89,6 +119,14 @@ const loginUser = async(req,res)=>{
   });
 };
 
+const logoutuser = async(req,res)=>{
+  res.cookie('token','logout',{
+    httpOnly: true,
+    expires: new Date(Date.now())
+});
+res.redirect('/');
+}
+
 module.exports = {
-    saveUserDataAndSignup,loginUser
+    saveUserDataAndSignup,loginUser,logoutuser
 };

@@ -12,28 +12,30 @@
 <!-- <script src="https://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.min.js"></script> -->
 </head>
 <body>
-    <form action="">
+    <form action="/save/matform" method="post">
         <!--  General -->
         <div class="form-group">
           <h2 class="heading">New Gatepass Registration</h2>
           <div class="controls">
-            <input type="text" id="name" class="floatLabel" name="name">
-            <label for="name">Name</label>
+            <input type="text" id="name" class="floatLabel" name="name" value="<%= name %>" readonly>
+            <label for="name" class="active">Name</label>
           </div>
           <div class="controls">
-            <input type="text" id="email" class="floatLabel" name="email">
-            <label for="email">Email</label>
+            <input type="text" id="email" class="floatLabel" name="email" value="<%= email %>" readonly="true">
+            <label for="email" class="active">Email</label>
           </div>       
           <div class="controls">
-            <input type="tel" id="phone" class="floatLabel" name="phone">
-            <label for="phone">Phone</label>
+            <input type="tel" id="phone" class="floatLabel" name="phone" value="<%= phone %>" readonly>
+            <label for="phone" class="active">Phone</label>
           </div>
+          <h2 class="heading">Location Details</h2>
             <div class="grid">
               <div class="col-2-3">
                 <div class="controls">
                     <div class="controls">
                         <i class="fa fa-sort"></i>
-                        <select  id="street" class="floatLabel" name="source-dept" required>
+                        <select  id="street" class="floatLabel" name="sourceDept" required>
+                          <option value="">-Select-</option>
                           <option value="Dept-1">Dept-1</option>
                           <option value="Dept-2">Dept-2</option>
                           <option value="Dept-3">Dept-3</option>
@@ -46,7 +48,7 @@
               </div>
               <div class="col-1-3">
                 <div class="controls">
-                  <input type="number" id="street-number" class="floatLabel" name="source-gate-number" min="1" max="5">
+                  <input type="number" id="street-number" class="floatLabel" name="sourceGno" min="1" max="5" required>
                   <label for="street-number"> Source Gate No.</label>
                 </div>          
               </div>
@@ -55,7 +57,8 @@
               <div class="col-2-3">
                 <div class="controls">
                     <i class="fa fa-sort"></i>
-                    <select  id="tstreet" class="floatLabel" name="dest-dept" required>
+                    <select  id="tstreet" class="floatLabel" name="destDept" required>
+                      <option value="">-Select-</option>
                       <option value="Dept-1">Dept-1</option>
                       <option value="Dept-2">Dept-2</option>
                       <option value="Dept-3">Dept-3</option>
@@ -67,7 +70,7 @@
               </div>
               <div class="col-1-3">
                 <div class="controls">
-                  <input type="number" id="dstreet-number" class="floatLabel" name="dest-gate-number" min="1" max="5">
+                  <input type="number" id="dstreet-number" class="floatLabel" name="destGno" min="1" max="5" required>
                   <label for="dstreet-number">Dest. Gate No.</label>
                 </div>          
               </div>
@@ -75,21 +78,21 @@
             <div class="grid">
                 <div class="col-1-3 col-1-3-sm">
                     <div class="controls">
-                    <input type="date" id="arrive" class="floatLabel" name="arrive" value="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="arrive" class="floatLabel" name="arrive" value="<?php echo date('Y-m-d'); ?>" required>
                     <label for="arrive" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Arrive</label>
                     </div>      
                 </div>
                 <div class="col-1-3 col-1-3-sm">
                     <div class="controls">
-                    <input type="date" id="depart" class="floatLabel" name="depart" value="<?php echo date('Y-m-d'); ?>" />
+                    <input type="date" id="depart" class="floatLabel" name="depart" value="<?php echo date('Y-m-d'); ?>" required/>
                     <label for="depart" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Depart</label>
                     </div>      
                 </div>
                 <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
                     <i class="fa fa-sort"></i>
-                    <select class="floatLabel" id="addressYears" required>
-                      <option value="0">0</option>
+                    <select class="floatLabel" id="addressYears" name="nitems" required>
+                      <option value="">-Select-</option>
                       <option value="1">1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
@@ -133,14 +136,15 @@
                 
             </div> <!-- /.form-group -->
 
-
+            <% if(role!=="vendor" && role !=="employee"){ %>
             <div>
             <h2 class="heading">Approval Details</h2>
             <div class="grid">
             <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
                     <i class="fa fa-sort"></i>
-                        <select  id="sup" class="floatLabel" name="sup-status" required>
+                        <select  id="sup" class="floatLabel" name="supStatus" required>
+                          <option value="">-Select-</option>
                           <option value="approved">Approved</option>
                           <option value="reject">Hold & Reject</option>
                         </select>
@@ -149,14 +153,14 @@
             </div>
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="date" id="sup-d" class="floatLabel" name="Sup-approval-date" value="<?php echo date('Y-m-d'); ?>" />
+                <input type="date" id="sup-d" class="floatLabel" name="supApprovalDate" value="<?php echo date('Y-m-d'); ?>" required/>
                     <label for="sup-d" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Supervisor Approval Date</label>
             </div>     
             </div>
         
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="sup-cmts" class="floatLabel" name="sup-comments">
+                <input type="text" id="sup-cmts" class="floatLabel" name="supComments" required>
                  <label for="sup-cmts">Supervisor Comments</label>
             </div>     
             </div>
@@ -166,7 +170,8 @@
             <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
                     <i class="fa fa-sort"></i>
-                        <select  id="hod" class="floatLabel" name="hod-status" required>
+                        <select  id="hod" class="floatLabel" name="hodStatus" required>
+                          <option value="">-Select-</option>
                           <option value="approved">Approved</option>
                           <option value="reject">Hold & Reject</option>
                         </select>
@@ -175,14 +180,14 @@
             </div>
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="date" id="hod-d" class="floatLabel" name="hod-approval-date" value="<?php echo date('Y-m-d'); ?>" />
+                <input type="date" id="hod-d" class="floatLabel" name="hodApprovalDate" value="<?php echo date('Y-m-d'); ?>" required />
                     <label for="hod-d" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;HOD Approval Date</label>
             </div>     
             </div>
         
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="hod-cmts" class="floatLabel" name="hod-comments">
+                <input type="text" id="hod-cmts" class="floatLabel" name="hodComments" required>
                  <label for="hod-cmts">HOD Comments</label>
             </div>     
             </div>
@@ -192,7 +197,8 @@
             <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
                     <i class="fa fa-sort"></i>
-                        <select  id="sec" class="floatLabel" name="sec-status" required>
+                        <select  id="sec" class="floatLabel" name="secStatus" required>
+                          <option value="">-Select-</option>
                           <option value="approved">Approved</option>
                           <option value="reject">Hold & Reject</option>
                         </select>
@@ -201,20 +207,21 @@
             </div>
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="date" id="sec-d" class="floatLabel" name="sec-approval-date" value="<?php echo date('Y-m-d'); ?>" />
+                <input type="date" id="sec-d" class="floatLabel" name="secApprovalDate" value="<?php echo date('Y-m-d'); ?>" required/>
                     <label for="sec-d" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Item Approval Date</label>
             </div>     
             </div>
         
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="sec-cmts" class="floatLabel" name="sec-comments">
+                <input type="text" id="sec-cmts" class="floatLabel" name="secComments" required>
                  <label for="sec-cmts">Item Status</label>
             </div>     
             </div>
                 
             </div>
             </div>
+            <% } %>
 
 
             <div class="grid">
@@ -251,27 +258,26 @@ function create(userNumber) {
             <div class="grid">
             <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
-                    <input type="text" id="it${i}-name" class="floatLabel" name="it${i}-name" required>
-                    <label for="it${i}-name">Item Name</label>
+                    <input type="text" id="it${i}-name" class="floatLabel" name="it${i}Name" required>
+                    <label for="it${i}-name" class="active">Item Name</label>
                 </div>      
             </div>
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="it${i}-pno" class="floatLabel" name="it${i}-pno" required>
-                 <label for="it${i}-pno">Product Part No.</label>
+                <input type="text" id="it${i}-pno" class="floatLabel" name="it${i}Pno" required>
+                 <label for="it${i}-pno" class="active">Product Part No.</label>
 
             </div>     
             </div>
         
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="it${i}-qty" class="floatLabel" name="it${i}-qty" required>
-                 <label for="it${i}-qty">Quantity</label>
+                <input type="text" id="it${i}_qty" class="floatLabel" name="it${i}Qty" required>
+                 <label for="it${i}_qty" class="active">Quantity</label>
             </div>     
             </div>
                 
-            </div>
-  `
+            </div>`
     }
   }
 });
