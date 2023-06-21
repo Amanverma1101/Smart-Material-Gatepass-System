@@ -1,9 +1,11 @@
 const {db,firebase} = require("../config");
 
 const saveMatInfo = async(req,res)=>{
-    const {email} = res.locals;
+    const {email, name} = res.locals;
     const data = {
+        name: name,
         email: email,
+        phone: req.body.phone,
         sdept: req.body.sourceDept,
         sgno: req.body.sourceGno,
         tdept: req.body.destDept,
@@ -31,7 +33,7 @@ const saveMatInfo = async(req,res)=>{
     await docRef.set({...data,id:docId,gpid:gpid})
         .then(async() => {
             console.log("Document written with ID:", docId);
-            await db.collection('depatments').doc(data.sdept).collection('assigned').doc(docId).set({gpid:gpid,itname:itms,dref:docId});
+            await db.collection('departments').doc(data.sdept).collection('assigned').doc(docId).set({requestor:name,email:email,gpid:gpid,itname:itms,dref:docId});
             res.redirect("/user/profile");
         })
         .catch((err) => {
@@ -40,6 +42,48 @@ const saveMatInfo = async(req,res)=>{
         });
 }
 
+const fetchMatForm = async(req,res)=>{
+    const fid = req.params.id;
+    const rmail = req.params.mail;
+    const snap = await db.collection("users").doc("requesting").collection(rmail).doc(fid).get();
+    const data = snap.data();
+    return res.render("approveform",{data,refid: fid,});
+}
+
+const approveMatform = async(req,res)=>{
+    try{
+        const data = req.body;
+        console.log(data);
+            const updateData = {
+            supStatus: data.supStatus,
+            supEmail: data.supEmail,
+            supName: data.supName,
+            supComments: data.supComments,
+            supApprovalDate: data.supApprovalDate 
+        }
+        const promises = [];
+        if(data.supStatus==="approved"){
+            const docRef1 =  db.collection("users").doc("requesting").collection(data.email).doc(data.refid);
+            const p1 = docRef1.update(updateData);
+            promises.push(p1);
+            const docRef2 =  db.collection("departments").doc(data.sourceDept).collection("assigned").doc(data.refid);
+            const p2 = docRef2.update(updateData);
+            promises.push(p2);
+            await Promise.all(promises);
+            return res.redirect("/approver/profile");
+        }else{
+            const docRef2 =  db.collection("departments").doc(data.sourceDept).collection("assigned").doc(data.refid);
+            const p2 = await docRef2.delete().then(()=>{
+                return res.redirect("/approver/profile");
+            })
+        }
+    }catch(error){
+        console.log(error);
+        return res.status(400).send("Error hai bhaii !!");
+    }
+    return;
+}
+
 module.exports = {
-    saveMatInfo
+    saveMatInfo,fetchMatForm, approveMatform
 };

@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 80;
 
 const pages = require('./routes/pages');
+const auth = require('./routes/auth');
 const usersignup = require('./routes/newuser');
 const material = require('./routes/material');
 
@@ -19,6 +20,7 @@ const mw = require('./middleware');
 
 app.use('/',mw);
 app.use('/',pages);
+app.use('/',auth);
 app.use('/',usersignup);
 app.use('/',material);
 

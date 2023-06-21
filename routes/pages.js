@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const {fetchProfile} = require("../controllers/user")
-
+const {fetchProfile} = require("../controllers/user");
+const {fetchreq} = require("../controllers/approvemat");
 router.get('/',async(req,res)=>{
     res.render("home");
 });
@@ -13,9 +13,7 @@ router.get('/userlogin',async(req,res)=>{
 });
 router.get('/user/profile',fetchProfile);
 
-router.get('/appdb',async(req,res)=>{
-    res.render("appdb",{msg: ""});
-});
+router.get('/approver/profile',fetchreq);
 router.get('/material/gatepass',async(req,res)=>{
     res.render("matform",{msg: ""});
 });

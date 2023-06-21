@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="/css/usersignup.css">
+</head>
+<body>
+	<div class="form_wrapper">
+		<div class="form_container">
+			<div class="title_container">
+				<h2>Approver Registration Form</h2>
+			</div>
+			<div class="row clearfix">
+				<div class="">
+					<form method="post" action="/approversignup" id='register-form' autocomplete="off">
+						<div class="row clearfix">
+							<div class="col_half">
+								<div class="input_field">
+									<span>
+										<i aria-hidden="true" class="fa fa-user"></i>
+									</span>
+									<input type="text" name="name" placeholder="First Name" required />
+								</div>
+							</div>
+							<div class="col_half">
+								<div class="input_field">
+									<span>
+										<i aria-hidden="true" class="fa fa-user"></i>
+									</span>
+									<input type="text" name="name" placeholder="Last Name" required />
+								</div>
+							</div>
+						</div>
+						<!-- <div class="input_field">
+							<span>
+								<i aria-hidden="true" class="fa fa-phone"></i>
+							</span>
+							<input type="text" pattern="[6789][0-9]{9}" name="phone" placeholder="Phone No.(excluding +91)" required />
+						</div> -->
+						<div class="input_field">
+							<span>
+								<i aria-hidden="true" class="fa fa-envelope"></i>
+							</span>
+							<input type="email" name="email" placeholder="Email" required />
+						</div>
+						<!-- <div class="input_field">
+							<div class="select_option">
+								<span class="select_arrow">
+								</span>
+						<select id="role" name="role" onchange="handleRoleChange(this)" required>
+							<option value="">- Type -</option>
+							<option value="employee">Employee</option>
+							<option value="vendor">Vendor</option>
+						  </select>
+						</div>
+						  </div> -->
+						  <!-- <div id="employeeFields"> -->
+							<div id="employeeId" class="input_field">
+								<span>
+									<i aria-hidden="true" class="fa fa-id-badge"></i>
+								</span>
+								<input type="text" name="eno" id="employee" placeholder="Enter Personal No." required/>
+							</div>
+							
+							<div id="designation" class="input_field">
+								<div class="select_option">
+										<span class="select_arrow">
+										</span>
+								<select id="desg" name="designation" required>
+									<option value="">-Select Designation-</option>
+									<option value="Supervisor">Supervisor</option>
+									<option value="HOD">Head of Department</option>
+									<option value="Security">Security</option>
+								</select>
+								</div>
+							</div>
+							<div id="department" class="input_field">
+								<div class="select_option">
+										<span class="select_arrow">
+										</span>
+								<select id="dept" name="dept" required>
+									<option value="">-Select Department-</option>
+									<option value="Dept-1">Dept-1</option>
+									<option value="Dept-2">Dept-2</option>
+									<option value="Dept-3">Dept-3</option>
+									<option value="Dept-4">Dept-4</option>
+									<option value="Dept-5">Dept-5</option>
+								</select>
+								</div>
+							</div>
+						
+						<div class="input_field">
+							<span><i aria-hidden="true" class="fa fa-lock">
+								</i>
+							</span>
+							<input type="password" name="password" placeholder="Password" required />
+						</div>
+						<div class="input_field">
+							<span>
+								<i aria-hidden="true" class="fa fa-lock"></i>
+							</span>
+							<input type="password" name="password" placeholder="Re-type Password" required />
+						</div>
+
+						
+						<div class="input_field checkbox_option">
+							<input type="checkbox" id="cb1" required>
+							<label for="cb1">I agree with terms and conditions</label>
+						</div>
+						<!-- <div class="input_field checkbox_option">
+							<input type="checkbox" id="cb2">
+							<label for="cb2">I want to receive the newsletter</label>
+						</div> -->
+						<!-- <button id='check-data' class='button'>
+							Check Data
+						</button> -->
+	 
+						<input id='submit-data' class="button" type="submit" value="Register" />
+						<p class="input_field" style="color: red;"><%= msg %></p>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="/js/usersignup.js"></script>
+<script src="https://use.fontawesome.com/723b3db6c5.js"></script>
+</html>

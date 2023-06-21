@@ -27,7 +27,7 @@ const mw = async(req,res,next)=>{
           gender: payload.gender
         //   url: payload.url
         }
-        // console.log(user.status,user.email,user.name,user.role, user.phone);
+        console.log(user.status,user.email,user.name,user.role);
         res.locals.status = user.status;
         res.locals.email = user.email;
         res.locals.name = user.name;
