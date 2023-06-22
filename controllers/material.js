@@ -51,18 +51,19 @@ const fetchMatForm = async(req,res)=>{
 }
 
 const approveMatform = async(req,res)=>{
+    const {role} = res.locals;
     try{
         const data = req.body;
         console.log(data);
-            const updateData = {
-            supStatus: data.supStatus,
-            supEmail: data.supEmail,
-            supName: data.supName,
-            supComments: data.supComments,
-            supApprovalDate: data.supApprovalDate 
+        const updateData = {};
+        for (const [key, value] of Object.entries(req.body)) {
+          if (value !== undefined) {
+            updateData[key] = value;
+          }
         }
         const promises = [];
-        if(data.supStatus==="approved"){
+         if((role === "Supervisor" && data.supStatus==="approved") || (role === "HOD" && data.hodStatus==="approved") || (role === "Security" && data.secStatus==="approved")) 
+           {
             const docRef1 =  db.collection("users").doc("requesting").collection(data.email).doc(data.refid);
             const p1 = docRef1.update(updateData);
             promises.push(p1);
@@ -72,10 +73,11 @@ const approveMatform = async(req,res)=>{
             await Promise.all(promises);
             return res.redirect("/approver/profile");
         }else{
-            const docRef2 =  db.collection("departments").doc(data.sourceDept).collection("assigned").doc(data.refid);
-            const p2 = await docRef2.delete().then(()=>{
+            // const docRef2 =  db.collection("departments").doc(data.sourceDept).collection("assigned").doc(data.refid);
+            // const p2 = await docRef2.delete().then(()=>{
+                console.log("delete ho jaayega bhaii!")
                 return res.redirect("/approver/profile");
-            })
+            // })
         }
     }catch(error){
         console.log(error);

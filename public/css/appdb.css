@@ -643,19 +643,19 @@ body.light-mode .video-bg:before {
 		padding: 6px 14px;
 	}
 }
-.status-button.open {
+/* .status-button.open {
 	background: none;
 	color: var(--button-inactive);
 	border: 1px solid var(--button-inactive);
-}
+} */
 .status-button:not(.open):hover {
 	color: #fff;
 	border-color: #fff;
 }
 
-.content-button:not(.open):hover {
+/* .content-button:not(.open):hover {
 	background: #1e59f1;
-}
+} */
 
 .menu {
 	width: 5px;

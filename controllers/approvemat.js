@@ -9,7 +9,11 @@ const fetchreq = async(req,res)=>{
         d.name = doc.data().itname;
         d.gpid = doc.data().gpid;
         d.email = doc.data().email;
+        d.dref = doc.data().dref;
         d.requestor = doc.data().requestor;
+        d.supStatus = doc.data().supStatus;
+        d.hodStatus = doc.data().hodStatus;
+        d.secStatus = doc.data().secStatus;
         data.push(d);    
       });
     res.render("appdb",{msg: "",data});
