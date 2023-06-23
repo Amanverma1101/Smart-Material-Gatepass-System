@@ -11,7 +11,47 @@
 <!-- <script src="https://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.js"></script> -->
 <!-- <script src="https://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.min.js"></script> -->
 </head>
+<style>
+  @media print{
+    @page {
+    /* margin: 20px 0; */
+    size: A4 potrait;
+  }
+  body::after{
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+    opacity: 0.2;
+    z-index: 1;
+    /* background: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Tata_Steel_at_Night.jpg/330px-Tata_Steel_at_Night.jpg") no-repeat center center/cover; */
+    background-image: url("https://www.marketing91.com/wp-content/uploads/2016/12/tata-steel.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+  
+  .logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 90px;
+    height: 70px;
+    z-index: 999;
+    background-image: url("https://www.marketing91.com/wp-content/uploads/2016/12/tata-steel.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  #disp{
+    display: none;
+  }
+}
+</style>
 <body>
+  <div class="logo"></div>
     <form>
         <!--  General -->
         <div class="form-group">
@@ -223,15 +263,18 @@
             </div>
 
 
+            <button onclick="fun()" class="col-1-4" id="disp" style="display: <%= msg %>;">Print Gate-Pass</button>
             
         </div>
         
       </form>
-      
 </body>
 <script src="https://use.fontawesome.com/723b3db6c5.js"></script>
 <script src="/js/matform.js"></script>
 <script>
+  const fun =()=> {
+    window.print();
+  }
     const users = '<%= JSON.stringify(data) %>';
     let res = users.replace(/&#34;/g, '"');
     let data = JSON.parse(`${res}`);

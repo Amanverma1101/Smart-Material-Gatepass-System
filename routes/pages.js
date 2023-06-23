@@ -15,7 +15,8 @@ router.get('/user/profile',fetchProfile);
 
 router.get('/approver/profile',fetchreq);
 
-router.get("/showstatus/:mail/:id",fetchform);
+router.get("/showstatus/:mail/:id/:b",fetchform);
+// router.get("/showStatus/:mail/:id",fetchform);
 
 router.get('/material/gatepass',async(req,res)=>{
     res.render("matform",{msg: ""});

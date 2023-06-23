@@ -22,9 +22,11 @@ const fetchProfile = async(req,res)=>{
 const fetchform = async(req,res)=> {
     const femail = req.params.mail;
     const ref = req.params.id;
+    const b = req.params.b;
     const snap = await db.collection("users").doc("requesting").collection(femail).doc(ref).get();
     const data = snap.data();
-    return res.render("formstatus",{data});
+    if(b==="1"){msg=""}else{msg="none"}
+    return res.render("formstatus",{data,msg:msg});
 }
 
 module.exports = {
