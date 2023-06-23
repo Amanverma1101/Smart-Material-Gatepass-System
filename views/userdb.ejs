@@ -87,22 +87,32 @@
                   <% for(let i=1;i<=data.length;i++){ %>
                   <tr>
                     <td data-title="ID"><%= data[i-1].gpid %></td>
-                    <td data-title="Name"><%= data[i-1].name %></td>
-                    <% if(data[i-1].sup === undefined){ %>
+                    <td data-title="Name">
+                      <a href="/showstatus/<%= email %>/<%= data[i-1].ref %>" style="color: blue;"><%= data[i-1].name %></a>
+                    </td>
+                    <% if(data[i-1].sup === undefined || data[i-1].sup == ""){ %>
                     <td data-title="Supervisor">Pending</td>
+                    <% }else if(data[i-1].sup === "approved"){ %>
+                      <td data-title="Supervisor" style="background-color: rgba(67, 248, 67, 0.704);"><%= data[i-1].sup %></td>
                     <% }else{ %>
-                      <td data-title="Supervisor"><%= data[i-1].sup %></td>
+                      <td data-title="Supervisor" style="background-color: rgba(255, 39, 39, 0.74);"><%= data[i-1].sup %></td>
                       <% } %>
+                      <!-- --------------------------- -->
                     <% if( data[i-1].hod === undefined){ %>
                     <td data-title="HOD">Pending</td>
+                    <% }else if( data[i-1].hod === "approved"){ %>
+                      <td data-title="HOD"  style="background-color: rgba(67, 248, 67, 0.704);"><%= data[i-1].hod %></td>
                     <% }else{ %>
-                      <td data-title="HOD"><%= data[i-1].hod %></td>
-                      <% } %>
+                        <td data-title="HOD" style="background-color: rgba(255, 39, 39, 0.74);"><%= data[i-1].hod %></td>
+                        <% } %>
+                      <!-- --------------------------- -->
                     <% if( data[i-1].sec === undefined){ %>
                     <td data-title="Security">Pending</td>
-                    <% }else{ %>
-                      <td data-title="Security"><%= data[i-1].sec %></td>
-                      <% } %>
+                    <% }else if( data[i-1].sec === "approved"){ %>
+                      <td data-title="Security" style="background-color: rgba(67, 248, 67, 0.704);"><%= data[i-1].sec %></td>
+                      <% }else{ %>
+                        <td data-title="Security" style="background-color: rgba(255, 39, 39, 0.74);"><%= data[i-1].sec %></td>
+                        <% } %>
                   </tr>
                   <% } %>
                  

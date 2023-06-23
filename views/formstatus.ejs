@@ -12,21 +12,20 @@
 <!-- <script src="https://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.min.js"></script> -->
 </head>
 <body>
-    <form action="/approveMatform" method="post">
-      <input type="text" value="<%= refid %>" name="refid" style="display: none;"/>
+    <form>
         <!--  General -->
         <div class="form-group">
           <h2 class="heading">Requestor Details</h2>
           <div class="controls">
-            <input type="text" id="name" class="floatLabel" name="name" value="<%= data.name %>" readonly>
+            <input type="text" id="name" class="floatLabel" name="name" value="<%= name %>" readonly>
             <label for="name" class="active">Name</label>
           </div>
           <div class="controls">
-            <input type="text" id="email" class="floatLabel" name="email" value="<%= data.email %>" readonly="true">
+            <input type="text" id="email" class="floatLabel" name="email" value="<%= email %>" readonly="true">
             <label for="email" class="active">Email</label>
           </div>       
           <div class="controls">
-            <input type="tel" id="phone" class="floatLabel" name="phone" value="<%= data.phone %>" readonly>
+            <input type="tel" id="phone" class="floatLabel" name="phone" value="<%= phone %>" readonly>
             <label for="phone" class="active">Phone</label>
           </div>
           <h2 class="heading">Location Details</h2>
@@ -115,132 +114,116 @@
         <div id="userFields">
             <div class="form-group" id="form-group">
             </div> <!-- /.form-group -->
-
-            <% if(role!=="vendor" && role !=="employee"){ %>
             <div>
-            <h2 class="heading">Approval Details</h2>
-            <% if(role==="Supervisor"){ %>
+            
             <div class="grid">
+                <h2 class="heading"> Supervisor Approval Details</h2>
                 <div class="controls">
-                    <input type="text" id="sname" class="floatLabel" name="supName" value="<%= name %>" readonly>
+                    <input type="text" id="sname" class="floatLabel" name="supName" value="<%= data.supName %>" readonly>
                     <label for="sname" class="active">Name</label>
                   </div>
                   <div class="controls">
-                    <input type="text" id="supemail" class="floatLabel" name="supEmail" value="<%= email %>" readonly="true">
+                    <input type="text" id="supemail" class="floatLabel" name="supEmail" value="<%= data.supEmail %>" readonly="true">
                     <label for="supemail" class="active">Email</label>
                   </div> 
             <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
                     <i class="fa fa-sort"></i>
-                        <select  id="sup" class="floatLabel" name="supStatus" required>
-                          <option value="">-Select-</option>
-                          <option value="approved">Approved</option>
-                          <option value="rejected">Hold & Reject</option>
+                        <select  id="sup" class="floatLabel" name="supStatus">
+                          <option value="<%= data.supStatus %>" selected><%= data.supStatus %></option>
                         </select>
-                        <label for="sup"><i class="fa fa-user"></i>&nbsp;&nbsp;Supervisor Status</label>
+                        <label for="sup"  class="active"><i class="fa fa-user"></i>&nbsp;&nbsp;Supervisor Status</label>
                 </div>      
             </div>
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="date" id="sup-d" class="floatLabel" name="supApprovalDate" value="<?php echo date('Y-m-d'); ?>" required/>
-                    <label for="sup-d" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Supervisor Approval Date</label>
+                <input type="date" id="sup-d" class="floatLabel" name="supApprovalDate" value="<%= data.supApprovalDate %>" readonly/>
+                    <label for="sup-d" class="label-date active"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Supervisor Approval Date</label>
             </div>     
             </div>
         
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="sup-cmts" class="floatLabel" name="supComments" required>
-                 <label for="sup-cmts">Supervisor Comments</label>
+                <input type="text" id="sup-cmts" class="floatLabel" name="supComments" value="<%= data.supComments %>" readonly>
+                 <label for="sup-cmts"  class="active">Supervisor Comments</label>
             </div>     
             </div>
                 
             </div>
             <div>
             </div>
-            <% } %>
-            <% if(role==="HOD"){ %>
+            <!-- ------------ -->
             <div class="grid">
+                <h2 class="heading">HOD Approval Details</h2>
               <div class="controls">
-                <input type="text" id="hname" class="floatLabel" name="hodName" value="<%= name %>" readonly>
+                <input type="text" id="hname" class="floatLabel" name="hodName" value="<%= data.hodName %>" readonly>
                 <label for="hname" class="active">Name</label>
               </div>
               <div class="controls">
-                <input type="text" id="hodemail" class="floatLabel" name="hodEmail" value="<%= email %>" readonly="true">
+                <input type="text" id="hodemail" class="floatLabel" name="hodEmail" value="<%= data.hodEmail %>" readonly="true">
                 <label for="hodemail" class="active">Email</label>
               </div> 
             <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
                     <i class="fa fa-sort"></i>
-                        <select  id="hod" class="floatLabel" name="hodStatus" required>
-                          <option value="">-Select-</option>
-                          <option value="approved">Approved</option>
-                          <option value="rejected">Hold & Reject</option>
+                        <select  id="hod" class="floatLabel" name="hodStatus" required readonly>
+                          <option value="<%= data.hodStatus %>" selected><%= data.hodStatus %></option>
                         </select>
-                        <label for="hod"><i class="fa fa-user"></i>&nbsp;&nbsp;HOD Status</label>
+                        <label for="hod"  class="active"><i class="fa fa-user"></i>&nbsp;&nbsp;HOD Status</label>
                 </div>      
             </div>
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="date" id="hod-d" class="floatLabel" name="hodApprovalDate" value="<?php echo date('Y-m-d'); ?>" required />
-                    <label for="hod-d" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;HOD Approval Date</label>
+                <input type="date" id="hod-d" class="floatLabel" name="hodApprovalDate" value="<%= data.hodApprovalDate %>" readonly required/>
+                    <label for="hod-d" class="label-date active"><i class="fa fa-calendar"></i>&nbsp;&nbsp;HOD Approval Date</label>
             </div>     
             </div>
         
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="hod-cmts" class="floatLabel" name="hodComments" required>
-                 <label for="hod-cmts">HOD Comments</label>
+                <input type="text" id="hod-cmts" class="floatLabel" name="hodComments" value="<%= data.hodComments %>" readonly required>
+                 <label for="hod-cmts"  class="active">HOD Comments</label>
             </div>     
             </div>
                 
             </div>
-            <% } %>
-            <% if(role==="Security"){ %>
+            <!-- ---------------------- -->
             <div class="grid">
+                <h2 class="heading">Security Approval Details</h2>
               <div class="controls">
-                <input type="text" id="secname" class="floatLabel" name="secName" value="<%= name %>" readonly>
+                <input type="text" id="secname" class="floatLabel" name="secName" value="<%= data.secName %>" readonly>
                 <label for="secname" class="active">Name</label>
               </div>
               <div class="controls">
-                <input type="text" id="secemail" class="floatLabel" name="secEmail" value="<%= email %>" readonly="true">
+                <input type="text" id="secemail" class="floatLabel" name="secEmail" value="<%= data.secEmail %>" readonly="true">
                 <label for="secemail" class="active">Email</label>
               </div> 
             <div class="col-1-3 col-1-3-sm">
-                <div class="controls">
+                <div class="controls" >
                     <i class="fa fa-sort"></i>
-                        <select  id="sec" class="floatLabel" name="secStatus" required>
-                          <option value="">-Select-</option>
-                          <option value="approved">Approved</option>
-                          <option value="rejected">Hold & Reject</option>
+                        <select  id="sec" class="floatLabel active" name="secStatus" required >
+                          <option value="<%= data.secStatus %>" selected><%= data.secStatus %></option>
                         </select>
-                        <label for="sec"><i class="fa fa-user"></i>&nbsp;&nbsp;Security Status</label>
+                        <label for="sec"  class="active" ><i class="fa fa-user"></i>&nbsp;&nbsp;Security Status</label>
                 </div>      
             </div>
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="date" id="sec-d" class="floatLabel" name="secApprovalDate" value="<?php echo date('Y-m-d'); ?>" required/>
-                    <label for="sec-d" class="label-date"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Item Approval Date</label>
+                <input type="date" id="sec-d" class="floatLabel" name="secApprovalDate" value="<%= data.secApprovalDate %>" required/>
+                    <label for="sec-d" class="label-date active"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Item Approval Date</label>
             </div>     
             </div>
-        
             <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-                <input type="text" id="sec-cmts" class="floatLabel" name="secComments" required>
-                 <label for="sec-cmts">Item Status</label>
+                <input type="text" id="sec-cmts" class="floatLabel" name="secComments" value="<%= data.secComments %>" required readonly>
+                 <label for="sec-cmts"  class="active">Item Status</label>
             </div>     
             </div>
-                
             </div>
-            <% } %>
             </div>
-            <% } %>
 
 
-            <div class="grid">
-                <br>
-                    <button type="submit" value="Submit" class="col-1-4">Submit</button>
-                </div>  
-        </div>
+            
         </div>
         
       </form>

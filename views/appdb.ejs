@@ -27,19 +27,19 @@
           <a class="menu-link" href="#">Discover</a>
           <a class="menu-link notify" href="#">Market</a> -->
          </div>
-         
+         <% var c=0; %>
          <div class="header-profile">
           <div class="notification" style="color: aliceblue;"><%= email %>
-           <!-- <span class="notification-number">3</span>
+           <span class="notification-number" id="cval"><%= c %></span>
            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
             <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
-           </svg> -->
+           </svg>
           </div>
-          <svg viewBox="0 0 512 512" fill="currentColor">
+          <!-- <svg viewBox="0 0 512 512" fill="currentColor">
            <path d="M448.773 235.551A135.893 135.893 0 00451 211c0-74.443-60.557-135-135-135-47.52 0-91.567 25.313-115.766 65.537-32.666-10.59-66.182-6.049-93.794 12.979-27.612 19.013-44.092 49.116-45.425 82.031C24.716 253.788 0 290.497 0 331c0 7.031 1.703 13.887 3.006 20.537l.015.015C12.719 400.492 56.034 436 106 436h300c57.891 0 106-47.109 106-105 0-40.942-25.053-77.798-63.227-95.449z" />
-          </svg>
+          </svg> -->
           <a href="/userlogout">
-          <img class="profile-img" src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="">
+          <img class="profile-img" src="https://e7.pngegg.com/pngimages/918/229/png-clipart-computer-icons-login-logo-logout-emblem-trademark-thumbnail.png" alt="">
         </a> 
         </div>
         </div>
@@ -68,18 +68,23 @@
                <path xmlns="http://www.w3.org/2000/svg" d="M181 391c-41.353 0-75-33.647-75-75 0-8.291 6.709-15 15-15s15 6.709 15 15c0 24.814 20.186 45 45 45s45-20.186 45-45-20.186-45-45-45c-41.353 0-75-33.647-75-75s33.647-75 75-75 75 33.647 75 75c0 8.291-6.709 15-15 15s-15-6.709-15-15c0-24.814-20.186-45-45-45s-45 20.186-45 45 20.186 45 45 45c41.353 0 75 33.647 75 75s-33.647 75-75 75z" fill="#d6355b" data-original="#ff468c" />
                <path xmlns="http://www.w3.org/2000/svg" d="M391 361h-30c-8.276 0-15-6.724-15-15V211h45c8.291 0 15-6.709 15-15s-6.709-15-15-15h-45v-45c0-8.291-6.709-15-15-15s-15 6.709-15 15v45h-15c-8.291 0-15 6.709-15 15s6.709 15 15 15h15v135c0 24.814 20.186 45 45 45h30c8.291 0 15-6.709 15-15s-6.709-15-15-15z" fill="#d6355b" data-original="#d72878" />
               </svg>
-              Adobe Stock
+              Hey <%= name %>,
              </h3>
-             <div class="content-text">Grab yourself 10 free images from Adobe Stock in a 30-day free trial plan and find perfect image, that will help you with your new project.</div>
-             <button class="content-button">Start free trial</button>
+             <div class="content-text">With a simple click, you can accept or decline an approval request. The interface allows you to quickly navigate through requests and select the appropriate action.</div>
+             <!-- <button class="content-button">Start free trial</button> -->
             </div>
             <img class="content-wrapper-img" src="https://assets.codepen.io/3364143/glass.png" alt="">
            </div>
            <div class="content-section">
-            <div class="content-section-title">Apps in your plan</div>
+            <div class="content-section-title">Pending Approvals</div>
             <div class="apps-card">
               <% for(let i=1;i<=data.length;i++){ %>
-                <% if((role === "Supervisor" && (data[i-1].supStatus==='' || data[i-1].supStatus===undefined)) || (role === "HOD" && (data[i-1].hodStatus==='' || data[i-1].hodStatus===undefined) && (data[i-1].supStatus!=='' ||data[i-1].supStatus!==undefined)) || role === "Security" && (data[i-1].secStatus===''||data[i-1].secStatus===undefined) && (data[i-1].hodStatus!=='' ||data[i-1].hodStatus!==undefined) && (data[i-1].supStatus!=='' ||data[i-1].supStatus!==undefined)) {%>
+                <% c=c+1; %>
+                <script>
+                  let cv = "<%= c %>"
+                  document.getElementById("cval").innerText =  cv;
+                </script>
+                <% if((role === "Supervisor" && (data[i-1].supStatus==='' || data[i-1].supStatus===undefined)) || (role === "HOD" && (data[i-1].hodStatus==='' || data[i-1].hodStatus===undefined) && (data[i-1].supStatus==="approved")) || (role === "Security" && (data[i-1].secStatus===''||data[i-1].secStatus===undefined) && (data[i-1].hodStatus==='approved') && (data[i-1].supStatus==='approved'))) {%>
                     <div class="app-card">
               <span>
                <svg viewBox="0 0 512 512" style="border: 1px solid #a059a9">
@@ -93,7 +98,7 @@
               <div class="app-card__subtext"><%= data[i-1].name %><br>Requestor: <%= data[i-1].requestor %><br>Email: <%= data[i-1].email %></div>
               <div class="app-card-buttons">
                <a href="/approve/<%= data[i-1].email %>/<%= data[i-1].dref %>"><button class="content-button status-button">Update</button></a>
-               <div class="menu"></div>
+               <!-- <div class="menu"></div> -->
               </div>
              </div>
              <% } %>
@@ -101,7 +106,7 @@
             </div>
            </div>
            <div class="content-section">
-            <div class="content-section-title">Installed</div>
+            <div class="content-section-title">Checked & Verified</div>
             <ul>
               <% for(let i=1;i<=data.length;i++){ %>
                 <% if((role === "Supervisor" && (data[i-1].supStatus!=='' && data[i-1].supStatus!==undefined)) || (role === "HOD" && (data[i-1].hodStatus!=='' && data[i-1].hodStatus!==undefined) && (data[i-1].supStatus!=='' &&data[i-1].supStatus!==undefined)) || role === "Security" && (data[i-1].secStatus!==''&&data[i-1].secStatus!==undefined) && (data[i-1].hodStatus!=='' &&data[i-1].hodStatus!==undefined) && (data[i-1].supStatus!=='' && data[i-1].supStatus!==undefined)) {%>
@@ -119,11 +124,11 @@
                   <%= data[i-1].gpid %>
                   </div>
                   <span class="status">
-                  <span class="status-circle red"></span>
+                  <span class="status-circle green"></span>
                   <%= stat %></span>
                   <div class="button-wrapper">
-                  <button class="content-button status-button open">Open</button>
-                  <div class="menu">
+                  <a href="/showstatus/<%= data[i-1].email %>/<%= data[i-1].dref %>"><button class="content-button status-button open">Open</button></a>
+                  <!-- <div class="menu">
                     <button class="dropdown">
                     <ul>
                       <li><a href="#">Go to Discover</a></li>
@@ -131,7 +136,7 @@
                       <li><a href="#">Uninstall</a></li>
                     </ul>
                     </button>
-                  </div>
+                  </div> -->
                   </div>
                 </li>
                 <% } %>

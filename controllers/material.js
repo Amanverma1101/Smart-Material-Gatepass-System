@@ -61,9 +61,10 @@ const approveMatform = async(req,res)=>{
             updateData[key] = value;
           }
         }
-        const promises = [];
-         if((role === "Supervisor" && data.supStatus==="approved") || (role === "HOD" && data.hodStatus==="approved") || (role === "Security" && data.secStatus==="approved")) 
-           {
+        
+        //  if((role === "Supervisor" && data.supStatus==="approved") || (role === "HOD" && data.hodStatus==="approved") || (role === "Security" && data.secStatus==="approved")) 
+        //    {
+            const promises = [];
             const docRef1 =  db.collection("users").doc("requesting").collection(data.email).doc(data.refid);
             const p1 = docRef1.update(updateData);
             promises.push(p1);
@@ -72,18 +73,12 @@ const approveMatform = async(req,res)=>{
             promises.push(p2);
             await Promise.all(promises);
             return res.redirect("/approver/profile");
-        }else{
-            // const docRef2 =  db.collection("departments").doc(data.sourceDept).collection("assigned").doc(data.refid);
-            // const p2 = await docRef2.delete().then(()=>{
-                console.log("delete ho jaayega bhaii!")
-                return res.redirect("/approver/profile");
-            // })
-        }
+    // }
+        
     }catch(error){
         console.log(error);
         return res.status(400).send("Error hai bhaii !!");
     }
-    return;
 }
 
 module.exports = {
