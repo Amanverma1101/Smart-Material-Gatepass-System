@@ -30,7 +30,7 @@
          <% var c=0; %>
          <div class="header-profile">
           <div class="notification" style="color: aliceblue;"><%= email %>
-           <span class="notification-number" id="cval"><%= c %></span>
+           <span class="notification-number" id="cval" title="Pendibg Approvals"><%= c %></span>
            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
             <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
            </svg>
@@ -38,7 +38,7 @@
           <!-- <svg viewBox="0 0 512 512" fill="currentColor">
            <path d="M448.773 235.551A135.893 135.893 0 00451 211c0-74.443-60.557-135-135-135-47.52 0-91.567 25.313-115.766 65.537-32.666-10.59-66.182-6.049-93.794 12.979-27.612 19.013-44.092 49.116-45.425 82.031C24.716 253.788 0 290.497 0 331c0 7.031 1.703 13.887 3.006 20.537l.015.015C12.719 400.492 56.034 436 106 436h300c57.891 0 106-47.109 106-105 0-40.942-25.053-77.798-63.227-95.449z" />
           </svg> -->
-          <a href="/userlogout">
+          <a href="/userlogout" title="Logout">
           <img class="profile-img" src="https://e7.pngegg.com/pngimages/918/229/png-clipart-computer-icons-login-logo-logout-emblem-trademark-thumbnail.png" alt="">
         </a> 
         </div>
@@ -79,13 +79,16 @@
             <div class="content-section-title">Pending Approvals</div>
             <div class="apps-card">
               <% for(let i=1;i<=data.length;i++){ %>
-                <% c=c+1; %>
-                <script>
-                  let cv = "<%= c %>"
-                  document.getElementById("cval").innerText =  cv;
-                </script>
+                
                 <% if((role === "Supervisor" && (data[i-1].supStatus==='' || data[i-1].supStatus===undefined)) || (role === "HOD" && (data[i-1].hodStatus==='' || data[i-1].hodStatus===undefined) && (data[i-1].supStatus==="approved")) || (role === "Security" && (data[i-1].secStatus===''||data[i-1].secStatus===undefined) && (data[i-1].hodStatus==='approved') && (data[i-1].supStatus==='approved'))) {%>
                     <div class="app-card">
+                      <% c++; %>
+                      <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                          let cv = "<%= c %>";
+                          document.getElementById("cval").innerText = cv;
+                        });
+                       </script>
               <span>
                <svg viewBox="0 0 512 512" style="border: 1px solid #a059a9">
                 <path xmlns="http://www.w3.org/2000/svg" d="M480 0H32C14.368 0 0 14.368 0 32v448c0 17.664 14.368 32 32 32h448c17.664 0 32-14.336 32-32V32c0-17.632-14.336-32-32-32z" fill="#210027" data-original="#7b1fa2" />
@@ -127,7 +130,7 @@
                   <span class="status-circle green"></span>
                   <%= stat %></span>
                   <div class="button-wrapper">
-                  <a href="/showstatus/<%= data[i-1].email %>/<%= data[i-1].dref %>"><button class="content-button status-button open">Open</button></a>
+                  <a href="/showstatus/<%= data[i-1].email %>/<%= data[i-1].dref %>/0"><button class="content-button status-button open">Open</button></a>
                   <!-- <div class="menu">
                     <button class="dropdown">
                     <ul>
